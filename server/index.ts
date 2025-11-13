@@ -1471,6 +1471,39 @@ export function createServer() {
   );
   app.post("/api/banners/initialize", initializeBanners);
 
+  // Advertisement Submission routes
+  app.post("/api/advertisement/submissions", createAdvertisementSubmission);
+  app.get(
+    "/api/admin/advertisement/submissions",
+    authenticateToken,
+    requireAdmin,
+    getAdvertisementSubmissions,
+  );
+  app.get(
+    "/api/admin/advertisement/submissions/:id",
+    authenticateToken,
+    requireAdmin,
+    getAdvertisementSubmission,
+  );
+  app.put(
+    "/api/admin/advertisement/submissions/:id/status",
+    authenticateToken,
+    requireAdmin,
+    updateAdvertisementSubmissionStatus,
+  );
+  app.delete(
+    "/api/admin/advertisement/submissions/:id",
+    authenticateToken,
+    requireAdmin,
+    deleteAdvertisementSubmission,
+  );
+  app.get(
+    "/api/admin/advertisement/statistics",
+    authenticateToken,
+    requireAdmin,
+    getAdvertisementStatistics,
+  );
+
   // Analytics routes
   app.post("/api/analytics/view/:propertyId", trackPropertyView);
   app.post(
