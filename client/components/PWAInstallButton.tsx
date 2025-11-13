@@ -73,8 +73,8 @@ export default function PWAInstallButton() {
     try {
       // Check if file exists before downloading
       fetch("/api/app/info")
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           if (!data.success || !data.data?.available) {
             toast({
               title: "Download not available",
@@ -92,19 +92,23 @@ export default function PWAInstallButton() {
 
           // Mark install attempt in localStorage
           try {
-            localStorage.setItem("apk-download-attempted", JSON.stringify({
-              timestamp: new Date().toISOString(),
-              userAgent: navigator.userAgent,
-            }));
+            localStorage.setItem(
+              "apk-download-attempted",
+              JSON.stringify({
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+              }),
+            );
           } catch {}
 
           console.log("APK download started via UI");
         })
-        .catch(e => {
+        .catch((e) => {
           console.error("Failed to check APK availability:", e);
           toast({
             title: "Connection error",
-            description: "Could not check APK availability. Please check your internet and try again.",
+            description:
+              "Could not check APK availability. Please check your internet and try again.",
             variant: "destructive",
           });
         });
@@ -212,19 +216,40 @@ export default function PWAInstallButton() {
             {/* Install helper modal shown after download starts */}
             {showInstallHelp && (
               <div className="mt-4 p-3 bg-white rounded-md text-sm text-gray-800">
-                <div className="font-semibold mb-2 text-red-700">📲 Installation Steps</div>
+                <div className="font-semibold mb-2 text-red-700">
+                  📲 Installation Steps
+                </div>
                 <ol className="list-decimal list-inside space-y-2 text-xs">
-                  <li><strong>Find the file:</strong> Open your phone's Downloads app or Files app.</li>
-                  <li><strong>Locate APK:</strong> Look for "AashishProperty.apk" file.</li>
-                  <li><strong>Allow installation:</strong> If you see a popup asking to "Allow installation from unknown sources", tap OK.
-                    <div className="text-gray-600 ml-4 mt-1">If needed: Settings → Apps → Your Browser → Permissions → Install unknown apps → Allow</div>
+                  <li>
+                    <strong>Find the file:</strong> Open your phone's Downloads
+                    app or Files app.
                   </li>
-                  <li><strong>Install:</strong> Tap the APK file and follow the installation prompts.</li>
-                  <li><strong>Launch:</strong> Once done, find and open "Ashish Properties" from your app drawer.</li>
+                  <li>
+                    <strong>Locate APK:</strong> Look for "AashishProperty.apk"
+                    file.
+                  </li>
+                  <li>
+                    <strong>Allow installation:</strong> If you see a popup
+                    asking to "Allow installation from unknown sources", tap OK.
+                    <div className="text-gray-600 ml-4 mt-1">
+                      If needed: Settings → Apps → Your Browser → Permissions →
+                      Install unknown apps → Allow
+                    </div>
+                  </li>
+                  <li>
+                    <strong>Install:</strong> Tap the APK file and follow the
+                    installation prompts.
+                  </li>
+                  <li>
+                    <strong>Launch:</strong> Once done, find and open "Ashish
+                    Properties" from your app drawer.
+                  </li>
                 </ol>
 
                 <div className="mt-4 p-2 bg-yellow-50 border border-yellow-200 rounded text-xs">
-                  <strong className="text-yellow-800">⚠️ If you see an error:</strong>
+                  <strong className="text-yellow-800">
+                    ⚠️ If you see an error:
+                  </strong>
                   <ul className="list-disc list-inside ml-1 mt-1 text-yellow-700">
                     <li>Try downloading again using the button below</li>
                     <li>Make sure you have at least 50MB free storage</li>

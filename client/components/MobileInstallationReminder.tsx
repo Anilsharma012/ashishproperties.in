@@ -17,10 +17,11 @@ export default function MobileInstallationReminder() {
 
   useEffect(() => {
     // Only show on desktop, not on mobile
-    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
-      navigator.userAgent.toLowerCase()
-    );
-    
+    const isMobile =
+      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+        navigator.userAgent.toLowerCase(),
+      );
+
     if (isMobile) return; // Don't show on mobile devices
 
     try {
@@ -28,8 +29,9 @@ export default function MobileInstallationReminder() {
       const dismissedData = localStorage.getItem(REMINDER_STORAGE_KEY);
       if (dismissedData) {
         const dismissedTime = JSON.parse(dismissedData).timestamp;
-        const hoursSinceDismissed = (Date.now() - new Date(dismissedTime).getTime()) / (1000 * 60 * 60);
-        
+        const hoursSinceDismissed =
+          (Date.now() - new Date(dismissedTime).getTime()) / (1000 * 60 * 60);
+
         // Show again after 24 hours
         if (hoursSinceDismissed < 24) {
           setDismissed(true);
@@ -42,8 +44,10 @@ export default function MobileInstallationReminder() {
       if (installAttempt) {
         try {
           const data = JSON.parse(installAttempt);
-          const hoursSinceAttempt = (Date.now() - new Date(data.timestamp).getTime()) / (1000 * 60 * 60);
-          
+          const hoursSinceAttempt =
+            (Date.now() - new Date(data.timestamp).getTime()) /
+            (1000 * 60 * 60);
+
           // Show reminder if download was attempted less than 7 days ago
           if (hoursSinceAttempt < 168) {
             setVisible(true);
@@ -59,7 +63,7 @@ export default function MobileInstallationReminder() {
     try {
       localStorage.setItem(
         REMINDER_STORAGE_KEY,
-        JSON.stringify({ timestamp: new Date().toISOString() })
+        JSON.stringify({ timestamp: new Date().toISOString() }),
       );
     } catch {}
     setVisible(false);
@@ -82,7 +86,8 @@ export default function MobileInstallationReminder() {
                   Install on Your Phone
                 </h3>
                 <p className="text-xs text-gray-600 mt-1">
-                  Complete the APK installation on your mobile device to use the Ashish Properties app.
+                  Complete the APK installation on your mobile device to use the
+                  Ashish Properties app.
                 </p>
                 <div className="text-xs text-gray-500 mt-2 bg-gray-50 p-2 rounded">
                   <strong>Steps:</strong>
