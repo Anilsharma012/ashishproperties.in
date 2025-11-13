@@ -16,6 +16,7 @@ import {
   Briefcase,
   ArrowRight,
   Edit,
+  Package as PackageIcon,
 } from "lucide-react";
 
 interface MenuDashboardProps {
