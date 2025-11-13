@@ -82,7 +82,11 @@ export default function DynamicFooter() {
       "Your trusted property partner in Rohtak. Find your dream home with verified listings and expert guidance.",
     companyLogo: "AP",
     socialLinks: {},
-    contactInfo: {},
+    contactInfo: {
+      phone: "9896095599",
+      email: "sales@ashishproperties.in",
+      address: "Rohtak, Haryana, India",
+    },
     showLocations: true,
     locations: [
       "Model Town",
