@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { Property } from "@shared/types";
@@ -72,11 +68,14 @@ const C = {
 } as const;
 
 function StatBox({
-  color, label, value,
-}: { color: keyof typeof C; label: string; value: string | number; }) {
+  color, label, value, onClick,
+}: { color: keyof typeof C; label: string; value: string | number; onClick?: () => void }) {
   const k = C[color];
   return (
-    <div className={`${k.box} p-3 rounded-lg text-center`}>
+    <div
+      onClick={onClick}
+      className={`${k.box} p-3 rounded-lg text-center ${onClick ? 'cursor-pointer hover:shadow-md transition-all duration-200 hover:scale-105' : ''}`}
+    >
       <div className={`text-lg font-bold ${k.val}`}>{value}</div>
       <div className={`text-xs ${k.lbl}`}>{label}</div>
     </div>
