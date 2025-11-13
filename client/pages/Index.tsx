@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import OLXStyleHeader from "../components/OLXStyleHeader";
 import OLXStyleCategories from "../components/OLXStyleCategories";
 import TopBanner from "../components/TopBanner";
@@ -12,9 +12,22 @@ import StaticFooter from "../components/StaticFooter";
 import HeroImageSlider from "../components/HeroImageSlider";
 import PropertyAdsSlider from "../components/PropertyAdsSlider";
 import AdSlot from "../components/AdSlot";
-import AdvertisementBanners from "../components/AdvertisementBanners";
+import AdvertisementBannerCarousel from "../components/AdvertisementBannerCarousel";
+import AdvertisementForm from "../components/AdvertisementBanners";
 
 export default function Index() {
+  const [showAdForm, setShowAdForm] = useState(false);
+  const [selectedBannerType, setSelectedBannerType] = useState<
+    "residential" | "commercial" | "investment" | "industrial"
+  >("residential");
+
+  const handleBannerClick = (
+    bannerType: "residential" | "commercial" | "investment" | "industrial"
+  ) => {
+    setSelectedBannerType(bannerType);
+    setShowAdForm(true);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <OLXStyleHeader />
@@ -25,8 +38,8 @@ export default function Index() {
         {/* Hero Image Slider */}
         <HeroImageSlider />
 
-        {/* Advertisement Banners */}
-        <AdvertisementBanners />
+        {/* Advertisement Banner Carousel */}
+        <AdvertisementBannerCarousel onBannerClick={handleBannerClick} />
 
         {/* Dynamic Categories (moved up as requested) */}
         <OLXStyleCategories />
