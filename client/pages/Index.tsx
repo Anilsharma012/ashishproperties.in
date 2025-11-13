@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import OLXStyleHeader from "../components/OLXStyleHeader";
 import OLXStyleCategories from "../components/OLXStyleCategories";
 import TopBanner from "../components/TopBanner";
@@ -20,6 +20,31 @@ export default function Index() {
   const [selectedBannerType, setSelectedBannerType] = useState<
     "residential" | "commercial" | "investment" | "industrial"
   >("residential");
+
+  // Initialize advertisement banners on mount
+  useEffect(() => {
+    const initializeBanners = async () => {
+      try {
+        const response = await fetch(
+          "/api/banners?position=advertisement_banners&active=true"
+        );
+        const data = await response.json();
+
+        if (!Array.isArray(data?.data) || data.data.length === 0) {
+          // If no banners exist, initialize them
+          await fetch("/api/admin/advertisement-banners/initialize", {
+            method: "POST",
+          }).catch(() => {
+            // Silently fail if not admin - banners will use defaults
+          });
+        }
+      } catch (error) {
+        console.warn("Banner initialization check failed:", error);
+      }
+    };
+
+    initializeBanners();
+  }, []);
 
   const handleBannerClick = (
     bannerType: "residential" | "commercial" | "investment" | "industrial"
