@@ -28,7 +28,7 @@ export interface ApiResponse<T> {
 // Create advertisement submission
 export const createAdvertisementSubmission: RequestHandler = async (
   req,
-  res
+  res,
 ) => {
   try {
     const db = getDatabase();
@@ -218,7 +218,7 @@ export const getAdvertisementSubmission: RequestHandler = async (req, res) => {
         .collection("advertisement_submissions")
         .updateOne(
           { _id: new ObjectId(id) },
-          { $set: { status: "viewed", updatedAt: new Date() } }
+          { $set: { status: "viewed", updatedAt: new Date() } },
         );
       submission.status = "viewed";
       submission.updatedAt = new Date();
@@ -242,7 +242,7 @@ export const getAdvertisementSubmission: RequestHandler = async (req, res) => {
 // Update submission status
 export const updateAdvertisementSubmissionStatus: RequestHandler = async (
   req,
-  res
+  res,
 ) => {
   try {
     const db = getDatabase();
@@ -267,7 +267,7 @@ export const updateAdvertisementSubmissionStatus: RequestHandler = async (
       .collection("advertisement_submissions")
       .updateOne(
         { _id: new ObjectId(id) },
-        { $set: { status, updatedAt: new Date() } }
+        { $set: { status, updatedAt: new Date() } },
       );
 
     if (result.matchedCount === 0) {
@@ -299,7 +299,7 @@ export const updateAdvertisementSubmissionStatus: RequestHandler = async (
 // Delete submission
 export const deleteAdvertisementSubmission: RequestHandler = async (
   req,
-  res
+  res,
 ) => {
   try {
     const db = getDatabase();

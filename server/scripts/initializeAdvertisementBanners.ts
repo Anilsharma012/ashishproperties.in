@@ -13,7 +13,7 @@ const initializeAdvertisementBanners = async () => {
 
     if (existingCount >= 4) {
       console.log(
-        "✅ Advertisement banners already exist. Skipping initialization."
+        "✅ Advertisement banners already exist. Skipping initialization.",
       );
       return;
     }
@@ -22,7 +22,8 @@ const initializeAdvertisementBanners = async () => {
     const advertisementBanners = [
       {
         title: "Advertise Your New Residential Project in Rohtak",
-        description: "Reach thousands of homebuyers looking for their dream home",
+        description:
+          "Reach thousands of homebuyers looking for their dream home",
         imageUrl:
           "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1600&auto=format&fit=crop",
         link: "",
@@ -74,10 +75,12 @@ const initializeAdvertisementBanners = async () => {
     await bannerCollection.deleteMany({ position: "advertisement_banners" });
 
     // Insert new ones
-    const result = await bannerCollection.insertMany(advertisementBanners as any);
+    const result = await bannerCollection.insertMany(
+      advertisementBanners as any,
+    );
 
     console.log(
-      `✅ Successfully initialized ${result.insertedIds ? Object.keys(result.insertedIds).length : 4} advertisement banners`
+      `✅ Successfully initialized ${result.insertedIds ? Object.keys(result.insertedIds).length : 4} advertisement banners`,
     );
     console.log("Advertisement banners are ready!");
   } catch (error) {

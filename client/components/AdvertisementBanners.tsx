@@ -72,7 +72,7 @@ export default function AdvertisementForm({
 
   const handleInputChange = (
     field: keyof AdvertisementSubmission,
-    value: string
+    value: string,
   ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -214,9 +214,7 @@ export default function AdvertisementForm({
               type="text"
               placeholder="Enter your project name"
               value={formData.projectName}
-              onChange={(e) =>
-                handleInputChange("projectName", e.target.value)
-              }
+              onChange={(e) => handleInputChange("projectName", e.target.value)}
               required
             />
           </div>
@@ -274,9 +272,7 @@ export default function AdvertisementForm({
             <Textarea
               placeholder="Describe your project details"
               value={formData.description}
-              onChange={(e) =>
-                handleInputChange("description", e.target.value)
-              }
+              onChange={(e) => handleInputChange("description", e.target.value)}
               rows={4}
               required
             />

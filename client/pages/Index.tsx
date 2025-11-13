@@ -26,7 +26,7 @@ export default function Index() {
     const initializeBanners = async () => {
       try {
         const response = await fetch(
-          "/api/banners?position=advertisement_banners&active=true"
+          "/api/banners?position=advertisement_banners&active=true",
         );
         const data = await response.json();
 
@@ -47,7 +47,7 @@ export default function Index() {
   }, []);
 
   const handleBannerClick = (
-    bannerType: "residential" | "commercial" | "investment" | "industrial"
+    bannerType: "residential" | "commercial" | "investment" | "industrial",
   ) => {
     setSelectedBannerType(bannerType);
     setShowAdForm(true);

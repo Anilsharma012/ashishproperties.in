@@ -1538,7 +1538,7 @@ export function createServer() {
         ];
 
         const result = await bannerCollection.insertMany(
-          advertisementBanners as any
+          advertisementBanners as any,
         );
 
         res.json({
@@ -1555,7 +1555,7 @@ export function createServer() {
           error: "Failed to initialize advertisement banners",
         });
       }
-    }
+    },
   );
 
   // Advertisement Submission routes

@@ -132,7 +132,7 @@ export default function AdminAdvertisementSubmissionsManagement({
         `/api/admin/advertisement/submissions?${params}`,
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       const data = await response.json();
@@ -183,7 +183,7 @@ export default function AdminAdvertisementSubmissionsManagement({
 
   const handleStatusChange = async (
     submissionId: string,
-    newStatus: "new" | "viewed" | "contacted"
+    newStatus: "new" | "viewed" | "contacted",
   ) => {
     try {
       setUpdating(true);
@@ -196,7 +196,7 @@ export default function AdminAdvertisementSubmissionsManagement({
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ status: newStatus }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -239,7 +239,7 @@ export default function AdminAdvertisementSubmissionsManagement({
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
       const data = await response.json();
@@ -368,7 +368,10 @@ export default function AdminAdvertisementSubmissionsManagement({
             </Select>
 
             {/* Banner Type Filter */}
-            <Select value={filterBannerType} onValueChange={setFilterBannerType}>
+            <Select
+              value={filterBannerType}
+              onValueChange={setFilterBannerType}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Filter by type" />
               </SelectTrigger>
@@ -444,7 +447,7 @@ export default function AdminAdvertisementSubmissionsManagement({
                             onValueChange={(value) =>
                               handleStatusChange(
                                 submission._id,
-                                value as "new" | "viewed" | "contacted"
+                                value as "new" | "viewed" | "contacted",
                               )
                             }
                             disabled={updating}
@@ -598,9 +601,7 @@ export default function AdminAdvertisementSubmissionsManagement({
                       <p className="text-gray-500 flex items-center gap-2">
                         <DollarSign size={16} /> Budget
                       </p>
-                      <p className="font-medium">
-                        {selectedSubmission.budget}
-                      </p>
+                      <p className="font-medium">{selectedSubmission.budget}</p>
                     </div>
                   )}
                 </div>
