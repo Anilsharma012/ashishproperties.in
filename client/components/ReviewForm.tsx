@@ -88,31 +88,30 @@ export default function ReviewForm({ targetId, targetType = "property" }: Props)
       <h3 className="text-lg font-semibold mb-3">Write a review</h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Name / Email (show only if not present) */}
-        {!name && (
-          <div className="flex flex-col">
-            <label className="text-sm mb-1">Your Name</label>
-            <input
-              className="border rounded px-3 py-2"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
-            />
-          </div>
-        )}
+        {/* Name - always show, allow editing */}
+        <div className="flex flex-col">
+          <label className="text-sm mb-1">Your Name</label>
+          <input
+            className="border rounded px-3 py-2"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter your name"
+            required
+          />
+        </div>
 
-        {!email && (
-          <div className="flex flex-col">
-            <label className="text-sm mb-1">Your Email</label>
-            <input
-              type="email"
-              className="border rounded px-3 py-2"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-            />
-          </div>
-        )}
+        {/* Email - always show, allow editing */}
+        <div className="flex flex-col">
+          <label className="text-sm mb-1">Your Email</label>
+          <input
+            type="email"
+            className="border rounded px-3 py-2"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+          />
+        </div>
 
         <div className="flex flex-col">
           <label className="text-sm mb-1">Rating</label>
