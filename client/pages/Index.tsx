@@ -57,6 +57,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-white">
       <OLXStyleHeader />
+      <MobileInstallationReminder />
       <main className="pb-16 bg-gradient-to-b from-red-50 to-white">
         {/* Big banner above hero */}
         {/* <TopBanner /> */}
