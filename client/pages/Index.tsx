@@ -25,6 +25,9 @@ export default function Index() {
         {/* Hero Image Slider */}
         <HeroImageSlider />
 
+        {/* Advertisement Banners */}
+        <AdvertisementBanners />
+
         {/* Dynamic Categories (moved up as requested) */}
         <OLXStyleCategories />
 
