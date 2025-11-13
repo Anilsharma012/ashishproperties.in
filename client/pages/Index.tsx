@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import OLXStyleHeader from "../components/OLXStyleHeader";
 import OLXStyleCategories from "../components/OLXStyleCategories";
 import TopBanner from "../components/TopBanner";
@@ -13,8 +12,47 @@ import StaticFooter from "../components/StaticFooter";
 import HeroImageSlider from "../components/HeroImageSlider";
 import PropertyAdsSlider from "../components/PropertyAdsSlider";
 import AdSlot from "../components/AdSlot";
+import AdvertisementBannerCarousel from "../components/AdvertisementBannerCarousel";
+import AdvertisementForm from "../components/AdvertisementBanners";
 
 export default function Index() {
+  const [showAdForm, setShowAdForm] = useState(false);
+  const [selectedBannerType, setSelectedBannerType] = useState<
+    "residential" | "commercial" | "investment" | "industrial"
+  >("residential");
+
+  // Initialize advertisement banners on mount
+  useEffect(() => {
+    const initializeBanners = async () => {
+      try {
+        const response = await fetch(
+          "/api/banners?position=advertisement_banners&active=true",
+        );
+        const data = await response.json();
+
+        if (!Array.isArray(data?.data) || data.data.length === 0) {
+          // If no banners exist, initialize them
+          await fetch("/api/admin/advertisement-banners/initialize", {
+            method: "POST",
+          }).catch(() => {
+            // Silently fail if not admin - banners will use defaults
+          });
+        }
+      } catch (error) {
+        console.warn("Banner initialization check failed:", error);
+      }
+    };
+
+    initializeBanners();
+  }, []);
+
+  const handleBannerClick = (
+    bannerType: "residential" | "commercial" | "investment" | "industrial",
+  ) => {
+    setSelectedBannerType(bannerType);
+    setShowAdForm(true);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <OLXStyleHeader />
@@ -24,6 +62,9 @@ export default function Index() {
 
         {/* Hero Image Slider */}
         <HeroImageSlider />
+
+        {/* Advertisement Banner Carousel */}
+        <AdvertisementBannerCarousel onBannerClick={handleBannerClick} />
 
         {/* Dynamic Categories (moved up as requested) */}
         <OLXStyleCategories />
@@ -53,6 +94,13 @@ export default function Index() {
       <PWAInstallPrompt />
       <PWAInstallButton />
       <StaticFooter />
+
+      {/* Advertisement Form Modal */}
+      <AdvertisementForm
+        isOpen={showAdForm}
+        onClose={() => setShowAdForm(false)}
+        bannerType={selectedBannerType}
+      />
     </div>
   );
 }

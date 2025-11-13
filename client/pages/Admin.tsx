@@ -71,6 +71,7 @@ import SellerVerificationFields from "../components/admin/SellerVerificationFiel
 import PendingPropertiesApproval from "../components/admin/PendingPropertiesApproval";
 import OtherServicesManagement from "../components/admin/OtherServicesManagement";
 import SupportInbox from "../components/admin/SupportInbox";
+import AdvertisementSubmissionsManagement from "../components/admin/AdvertisementSubmissionsManagement";
 import {
   Table,
   TableBody,
@@ -1183,6 +1184,8 @@ export default function Admin() {
           return <NotificationManagement />;
         case "customers":
           return <AllUsersManagement />;
+        case "advertisement-submissions":
+          return <AdvertisementSubmissionsManagement token={token} />;
         case "role":
           return <StaffManagement />;
         case "staff-management":

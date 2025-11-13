@@ -266,6 +266,16 @@ import {
   initializeBanners,
 } from "./routes/banners";
 
+// Advertisement routes
+import {
+  createAdvertisementSubmission,
+  getAdvertisementSubmissions,
+  getAdvertisementSubmission,
+  updateAdvertisementSubmissionStatus,
+  deleteAdvertisementSubmission,
+  getAdvertisementStatistics,
+} from "./routes/advertisement";
+
 // New Projects routes
 import {
   getNewProjects,
@@ -1460,6 +1470,126 @@ export function createServer() {
     handleImageUpload,
   );
   app.post("/api/banners/initialize", initializeBanners);
+  app.post(
+    "/api/admin/advertisement-banners/initialize",
+    authenticateToken,
+    requireAdmin,
+    async (req, res) => {
+      try {
+        const db = getDatabase();
+        const bannerCollection = db.collection("banners");
+
+        // Delete existing advertisement banners
+        await bannerCollection.deleteMany({
+          position: "advertisement_banners",
+        });
+
+        // Insert new ones
+        const advertisementBanners = [
+          {
+            title: "Advertise Your New Residential Project in Rohtak",
+            description:
+              "Reach thousands of homebuyers looking for their dream home",
+            imageUrl:
+              "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1600&auto=format&fit=crop",
+            link: "",
+            position: "advertisement_banners",
+            isActive: true,
+            sortOrder: 1,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+          {
+            title: "Advertise Your New Commercial Project in Rohtak",
+            description: "Connect with business owners and investors",
+            imageUrl:
+              "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop",
+            link: "",
+            position: "advertisement_banners",
+            isActive: true,
+            sortOrder: 2,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+          {
+            title: "Advertise Your Real Estate Investment Project in Rohtak",
+            description: "Attract serious investors to your projects",
+            imageUrl:
+              "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?q=80&w=1600&auto=format&fit=crop",
+            link: "",
+            position: "advertisement_banners",
+            isActive: true,
+            sortOrder: 3,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+          {
+            title: "Advertise Your Industrial Property in Rohtak",
+            description: "Find the right businesses and manufacturers",
+            imageUrl:
+              "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop",
+            link: "",
+            position: "advertisement_banners",
+            isActive: true,
+            sortOrder: 4,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          },
+        ];
+
+        const result = await bannerCollection.insertMany(
+          advertisementBanners as any,
+        );
+
+        res.json({
+          success: true,
+          data: {
+            message: "Advertisement banners initialized successfully",
+            count: 4,
+          },
+        });
+      } catch (error) {
+        console.error("Error initializing advertisement banners:", error);
+        res.status(500).json({
+          success: false,
+          error: "Failed to initialize advertisement banners",
+        });
+      }
+    },
+  );
+
+  // Advertisement Submission routes
+  app.post("/api/advertisement/submissions", createAdvertisementSubmission);
+  app.get(
+    "/api/admin/advertisement/submissions",
+    authenticateToken,
+    requireAdmin,
+    getAdvertisementSubmissions,
+  );
+  app.get(
+    "/api/admin/advertisement/submissions/:id",
+    authenticateToken,
+    requireAdmin,
+    getAdvertisementSubmission,
+  );
+  app.put(
+    "/api/admin/advertisement/submissions/:id/status",
+    authenticateToken,
+    requireAdmin,
+    updateAdvertisementSubmissionStatus,
+  );
+  app.delete(
+    "/api/admin/advertisement/submissions/:id",
+    authenticateToken,
+    requireAdmin,
+    deleteAdvertisementSubmission,
+  );
+  app.get(
+    "/api/admin/advertisement/statistics",
+    authenticateToken,
+    requireAdmin,
+    getAdvertisementStatistics,
+  );
 
   // Analytics routes
   app.post("/api/analytics/view/:propertyId", trackPropertyView);
