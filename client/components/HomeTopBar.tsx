@@ -55,10 +55,6 @@ export default function HomeTopBar() {
           </span>
         )}
 
-        {/* wordmark only on md+ screens so mobile header clean रहे */}
-        <span className="ml-1 md:ml-2 text-white font-semibold hidden md:inline">
-          ashishproperties.in
-        </span>
 
         <span className="sr-only">ashishproperties.in</span>
       </a>
