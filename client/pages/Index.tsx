@@ -1,4 +1,3 @@
-
 import React from "react";
 import OLXStyleHeader from "../components/OLXStyleHeader";
 import OLXStyleCategories from "../components/OLXStyleCategories";
@@ -13,6 +12,7 @@ import StaticFooter from "../components/StaticFooter";
 import HeroImageSlider from "../components/HeroImageSlider";
 import PropertyAdsSlider from "../components/PropertyAdsSlider";
 import AdSlot from "../components/AdSlot";
+import AdvertisementBanners from "../components/AdvertisementBanners";
 
 export default function Index() {
   return (
