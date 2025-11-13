@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { sendWelcomeNotification } from "./notifications";
 import { getAdmin } from "../firebaseAdmin";
+import { sendWelcomeEmail } from "../utils/mailer";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 const SALT_ROUNDS = 10;
