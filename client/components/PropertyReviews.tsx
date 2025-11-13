@@ -9,7 +9,11 @@ interface Testimonial {
   createdAt: string;
 }
 
-export default function PropertyReviews({ propertyId }: { propertyId: string }) {
+export default function PropertyReviews({
+  propertyId,
+}: {
+  propertyId: string;
+}) {
   const [reviews, setReviews] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -17,18 +21,22 @@ export default function PropertyReviews({ propertyId }: { propertyId: string }) 
     const fetchReviews = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/testimonials?propertyId=${encodeURIComponent(propertyId)}`);
+        const url = `/api/testimonials?propertyId=${encodeURIComponent(propertyId)}&featured=false`;
+        const res = await fetch(url);
         if (res.ok) {
           const data = await res.json();
           if (data.success && Array.isArray(data.data)) {
             setReviews(data.data);
           } else {
+            console.error("Invalid testimonials response:", data);
             setReviews([]);
           }
         } else {
+          console.error("Failed to fetch testimonials:", res.status);
           setReviews([]);
         }
       } catch (e) {
+        console.error("Error fetching testimonials:", e);
         setReviews([]);
       } finally {
         setLoading(false);
@@ -66,11 +74,16 @@ export default function PropertyReviews({ propertyId }: { propertyId: string }) 
                 <div className="font-medium text-sm">{r.name || "User"}</div>
                 <div className="flex items-center space-x-1 text-yellow-600">
                   {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className={`w-4 h-4 ${i < (r.rating || 0) ? "fill-current" : ""}`} />
+                    <Star
+                      key={i}
+                      className={`w-4 h-4 ${i < (r.rating || 0) ? "fill-current" : ""}`}
+                    />
                   ))}
                 </div>
               </div>
-              <p className="text-sm text-gray-700 whitespace-pre-line">{r.comment}</p>
+              <p className="text-sm text-gray-700 whitespace-pre-line">
+                {r.comment}
+              </p>
               <div className="text-xs text-gray-400 mt-2">
                 {r.createdAt ? new Date(r.createdAt).toLocaleDateString() : ""}
               </div>

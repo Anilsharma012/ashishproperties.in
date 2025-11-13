@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { sendWelcomeNotification } from "./notifications";
 import { getAdmin } from "../firebaseAdmin";
+import { sendWelcomeEmail } from "../utils/mailer";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 const SALT_ROUNDS = 10;
@@ -97,7 +98,9 @@ async function upsertUserFromFirebaseIdentity(
 
   if (!user) {
     const newUser: any = {
-      name: name || (phone ? `User ${phone.slice(-4)}` : email?.split("@")[0] || "User"),
+      name:
+        name ||
+        (phone ? `User ${phone.slice(-4)}` : email?.split("@")[0] || "User"),
       email,
       phone,
       userType: resolvedType,
@@ -109,10 +112,12 @@ async function upsertUserFromFirebaseIdentity(
     user = { _id: ins.insertedId, ...newUser };
     return { user, isNew: true };
   } else {
-    await db.collection("users").updateOne(
-      { _id: user._id },
-      { $set: { firebaseUid: uid, lastLogin: now, updatedAt: now } },
-    );
+    await db
+      .collection("users")
+      .updateOne(
+        { _id: user._id },
+        { $set: { firebaseUid: uid, lastLogin: now, updatedAt: now } },
+      );
     return { user, isNew: false };
   }
 }
@@ -169,17 +174,25 @@ export const registerUser: RequestHandler = async (req, res) => {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return res.status(400).json({ success: false, error: "Invalid email format" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Invalid email format" });
     }
     if (String(phone).replace(/\D/g, "").length < 10) {
       return res
         .status(400)
-        .json({ success: false, error: "Phone number must be at least 10 digits" });
+        .json({
+          success: false,
+          error: "Phone number must be at least 10 digits",
+        });
     }
     if (!["seller", "buyer", "agent"].includes(userType)) {
       return res
         .status(400)
-        .json({ success: false, error: "Invalid user type. Must be seller, buyer, or agent" });
+        .json({
+          success: false,
+          error: "Invalid user type. Must be seller, buyer, or agent",
+        });
     }
 
     const existingUser = await db
@@ -231,9 +244,20 @@ export const registerUser: RequestHandler = async (req, res) => {
     const result = await db.collection("users").insertOne(newUser);
 
     try {
-      await sendWelcomeNotification(result.insertedId.toString(), name, userType);
+      await sendWelcomeNotification(
+        result.insertedId.toString(),
+        name,
+        userType,
+      );
     } catch (e) {
       console.warn("Welcome notification failed:", (e as any)?.message || e);
+    }
+
+    // Send welcome email
+    try {
+      await sendWelcomeEmail(email, name, userType);
+    } catch (e) {
+      console.warn("Welcome email failed:", (e as any)?.message || e);
     }
 
     const token = signAppJwt({
@@ -297,7 +321,8 @@ export const loginUser: RequestHandler = async (req, res) => {
     } else if (email && phone) {
       const digits = String(phone || "").replace(/\D/g, "");
       const e164 = toE164(String(phone || ""));
-      const spaced = digits.length >= 10 ? `+91 ${digits.slice(-10)}` : undefined;
+      const spaced =
+        digits.length >= 10 ? `+91 ${digits.slice(-10)}` : undefined;
       const plain = digits.length >= 10 ? `+91${digits.slice(-10)}` : undefined;
       query = {
         $or: [
@@ -313,7 +338,8 @@ export const loginUser: RequestHandler = async (req, res) => {
     } else if (phone) {
       const digits = String(phone || "").replace(/\D/g, "");
       const e164 = toE164(String(phone || ""));
-      const spaced = digits.length >= 10 ? `+91 ${digits.slice(-10)}` : undefined;
+      const spaced =
+        digits.length >= 10 ? `+91 ${digits.slice(-10)}` : undefined;
       const plain = digits.length >= 10 ? `+91${digits.slice(-10)}` : undefined;
       query = {
         $or: [
@@ -332,12 +358,16 @@ export const loginUser: RequestHandler = async (req, res) => {
 
     const user = await db.collection("users").findOne(query);
     if (!user) {
-      return res.status(401).json({ success: false, error: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid credentials" });
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      return res.status(401).json({ success: false, error: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid credentials" });
     }
 
     await db.collection("users").updateOne(
@@ -345,7 +375,7 @@ export const loginUser: RequestHandler = async (req, res) => {
       {
         $set: { lastLogin: new Date(), updatedAt: new Date() },
         $unset: user.isFirstLogin ? { isFirstLogin: 1 } : {},
-      }
+      },
     );
 
     const token = signAppJwt({
@@ -373,7 +403,10 @@ export const loginUser: RequestHandler = async (req, res) => {
         super_admin: { displayName: "Super Admin", color: "purple" },
         content_manager: { displayName: "Content Manager", color: "blue" },
         sales_manager: { displayName: "Sales Manager", color: "green" },
-        support_executive: { displayName: "Support Executive", color: "orange" },
+        support_executive: {
+          displayName: "Support Executive",
+          color: "orange",
+        },
         admin: { displayName: "Admin", color: "gray" },
       } as Record<string, any>;
 
@@ -423,12 +456,15 @@ export const firebaseLogin: RequestHandler = async (req, res) => {
     const tokenToUse = bodyIdToken || headerIdToken;
 
     if (!tokenToUse) {
-      return res.status(400).json({ success: false, error: "idToken required" });
+      return res
+        .status(400)
+        .json({ success: false, error: "idToken required" });
     }
 
     let decoded, email, name, phone;
     try {
-      ({ decoded, email, name, phone } = await verifyFirebaseIdTokenStrict(tokenToUse));
+      ({ decoded, email, name, phone } =
+        await verifyFirebaseIdTokenStrict(tokenToUse));
     } catch (e: any) {
       console.error("[firebaseLogin] verifyIdToken failed", {
         message: e?.message,
@@ -480,7 +516,8 @@ export const googleAuth: RequestHandler = async (req, res) => {
 
     let decoded, email, name, phone;
     try {
-      ({ decoded, email, name, phone } = await verifyFirebaseIdTokenStrict(idToken));
+      ({ decoded, email, name, phone } =
+        await verifyFirebaseIdTokenStrict(idToken));
     } catch (e: any) {
       console.error("[googleAuth] verifyIdToken failed", {
         message: e?.message,
@@ -522,15 +559,23 @@ export const getUserProfile: RequestHandler = async (req, res) => {
   try {
     const db = getDatabase();
     const userId = (req as any).userId;
-    const user = await db.collection("users").findOne({ _id: new ObjectId(userId) });
-    if (!user) return res.status(404).json({ success: false, error: "User not found" });
+    const user = await db
+      .collection("users")
+      .findOne({ _id: new ObjectId(userId) });
+    if (!user)
+      return res.status(404).json({ success: false, error: "User not found" });
 
     const { password, ...userWithoutPassword } = user;
-    const response: ApiResponse<any> = { success: true, data: userWithoutPassword };
+    const response: ApiResponse<any> = {
+      success: true,
+      data: userWithoutPassword,
+    };
     res.json(response);
   } catch (error) {
     console.error("Error fetching user profile:", error);
-    res.status(500).json({ success: false, error: "Failed to fetch user profile" });
+    res
+      .status(500)
+      .json({ success: false, error: "Failed to fetch user profile" });
   }
 };
 
@@ -543,10 +588,12 @@ export const updateUserProfile: RequestHandler = async (req, res) => {
     delete (updateData as any).password;
     delete (updateData as any)._id;
 
-    const result = await db.collection("users").updateOne(
-      { _id: new ObjectId(userId) },
-      { $set: { ...updateData, updatedAt: new Date() } }
-    );
+    const result = await db
+      .collection("users")
+      .updateOne(
+        { _id: new ObjectId(userId) },
+        { $set: { ...updateData, updatedAt: new Date() } },
+      );
 
     if (result.matchedCount === 0) {
       return res.status(404).json({ success: false, error: "User not found" });

@@ -6,6 +6,10 @@ import { ObjectId } from "mongodb";
 import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import fs from "fs";
+import {
+  sendPropertyConfirmationEmail,
+  sendPropertyApprovalEmail,
+} from "../utils/mailer";
 
 /* ========================= Multer (image uploads) ========================= */
 const storage = multer.diskStorage({
@@ -375,10 +379,31 @@ export const createProperty: RequestHandler = async (req, res) => {
     }
 
     const result = await db.collection("properties").insertOne(propertyData);
+    const propertyId = result.insertedId.toString();
+
+    // Send property confirmation email
+    try {
+      const user = await db
+        .collection("users")
+        .findOne({ _id: new ObjectId(String(userId)) });
+      if (user?.email) {
+        await sendPropertyConfirmationEmail(
+          user.email,
+          user.name || "User",
+          propertyData.title,
+          propertyId,
+        );
+      }
+    } catch (e) {
+      console.warn(
+        "Property confirmation email failed:",
+        (e as any)?.message || e,
+      );
+    }
 
     const response: ApiResponse<{ _id: string }> = {
       success: true,
-      data: { _id: result.insertedId.toString() },
+      data: { _id: propertyId },
       message:
         "Property submitted. ⏳ Pending Admin Approval. Paid listings go live only after payment verification + admin approval.",
     };

@@ -8,12 +8,17 @@ type Props = {
   targetType?: "property" | "agent"; // abhi backend testimonial me sirf optional mapping use hoga
 };
 
-export default function ReviewForm({ targetId, targetType = "property" }: Props) {
+export default function ReviewForm({
+  targetId,
+  targetType = "property",
+}: Props) {
   const { user, token, userProfile } = useAuth();
   const { toast } = useToast();
 
   // If user me name/email hai to fields prefill; warna user se mang lo
-  const [name, setName] = useState<string>(userProfile?.name || user?.user_metadata?.name || "");
+  const [name, setName] = useState<string>(
+    userProfile?.name || user?.user_metadata?.name || "",
+  );
   const [email, setEmail] = useState<string>(user?.email || "");
   const [rating, setRating] = useState<number>(5);
   const [comment, setComment] = useState<string>("");
@@ -28,12 +33,18 @@ export default function ReviewForm({ targetId, targetType = "property" }: Props)
       return;
     }
     if (!comment || comment.trim().length < 5) {
-      toast({ title: "Comment too short", description: "Please write at least 5 characters" });
+      toast({
+        title: "Comment too short",
+        description: "Please write at least 5 characters",
+      });
       return;
     }
     // name/email ensure
     if (!name || !email) {
-      toast({ title: "Name & Email required", description: "Please fill your name and email" });
+      toast({
+        title: "Name & Email required",
+        description: "Please fill your name and email",
+      });
       return;
     }
 
@@ -88,31 +99,30 @@ export default function ReviewForm({ targetId, targetType = "property" }: Props)
       <h3 className="text-lg font-semibold mb-3">Write a review</h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Name / Email (show only if not present) */}
-        {!name && (
-          <div className="flex flex-col">
-            <label className="text-sm mb-1">Your Name</label>
-            <input
-              className="border rounded px-3 py-2"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
-            />
-          </div>
-        )}
+        {/* Name - always show, allow editing */}
+        <div className="flex flex-col">
+          <label className="text-sm mb-1">Your Name</label>
+          <input
+            className="border rounded px-3 py-2"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter your name"
+            required
+          />
+        </div>
 
-        {!email && (
-          <div className="flex flex-col">
-            <label className="text-sm mb-1">Your Email</label>
-            <input
-              type="email"
-              className="border rounded px-3 py-2"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-            />
-          </div>
-        )}
+        {/* Email - always show, allow editing */}
+        <div className="flex flex-col">
+          <label className="text-sm mb-1">Your Email</label>
+          <input
+            type="email"
+            className="border rounded px-3 py-2"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+          />
+        </div>
 
         <div className="flex flex-col">
           <label className="text-sm mb-1">Rating</label>
@@ -122,7 +132,9 @@ export default function ReviewForm({ targetId, targetType = "property" }: Props)
             onChange={(e) => setRating(Number(e.target.value))}
           >
             {[5, 4, 3, 2, 1].map((r) => (
-              <option key={r} value={r}>{r} ⭐</option>
+              <option key={r} value={r}>
+                {r} ⭐
+              </option>
             ))}
           </select>
         </div>
