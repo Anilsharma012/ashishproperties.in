@@ -243,10 +243,30 @@ export default function MenuDashboard({ onClose }: MenuDashboardProps) {
         {/* Stats */}
         {user?.userType === "seller" && (
           <div className="grid grid-cols-2 gap-3 mb-4">
-            <StatBox color="blue" label="Total Listings" value={stats.totalProperties} />
-            <StatBox color="green" label="Approved" value={stats.approved} />
-            <StatBox color="yellow" label="Pending" value={stats.pendingApproval} />
-            <StatBox color="purple" label="Total Views" value={stats.totalViews} />
+            <StatBox
+              color="blue"
+              label="Total Listings"
+              value={stats.totalProperties}
+              onClick={() => go("/enhanced-seller-dashboard")}
+            />
+            <StatBox
+              color="green"
+              label="Approved"
+              value={stats.approved}
+              onClick={() => go("/enhanced-seller-dashboard?filter=approved")}
+            />
+            <StatBox
+              color="yellow"
+              label="Pending"
+              value={stats.pendingApproval}
+              onClick={() => go("/enhanced-seller-dashboard?filter=pending")}
+            />
+            <StatBox
+              color="purple"
+              label="Total Views"
+              value={stats.totalViews}
+              onClick={() => go("/enhanced-seller-dashboard")}
+            />
           </div>
         )}
         {user?.userType === "agent" && (
