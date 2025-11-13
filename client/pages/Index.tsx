@@ -6,6 +6,7 @@ import OLXStyleListings from "../components/OLXStyleListings";
 import PackagesShowcase from "../components/PackagesShowcase";
 import PWAInstallPrompt from "../components/PWAInstallPrompt";
 import PWAInstallButton from "../components/PWAInstallButton";
+import MobileInstallationReminder from "../components/MobileInstallationReminder";
 import BottomNavigation from "../components/BottomNavigation";
 import HomepageBanner from "../components/HomepageBanner";
 import StaticFooter from "../components/StaticFooter";
