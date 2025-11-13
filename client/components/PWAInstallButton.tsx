@@ -71,19 +71,49 @@ export default function PWAInstallButton() {
     }
 
     try {
-      // start download in same tab (server streams APK)
-      window.location.href = "/api/app/download";
+      // Check if file exists before downloading
+      fetch("/api/app/info")
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success || !data.data?.available) {
+            toast({
+              title: "Download not available",
+              description: "APK file is not available. Please contact support.",
+              variant: "destructive",
+            });
+            return;
+          }
 
-      // show inline instructions because silent install is not possible
-      setShowInstallHelp(true);
+          // start download in same tab (server streams APK)
+          window.location.href = "/api/app/download";
 
-      // log event (optional)
-      console.log("APK download started via UI");
+          // show inline instructions because silent install is not possible
+          setShowInstallHelp(true);
+
+          // Mark install attempt in localStorage
+          try {
+            localStorage.setItem("apk-download-attempted", JSON.stringify({
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent,
+            }));
+          } catch {}
+
+          console.log("APK download started via UI");
+        })
+        .catch(e => {
+          console.error("Failed to check APK availability:", e);
+          toast({
+            title: "Connection error",
+            description: "Could not check APK availability. Please check your internet and try again.",
+            variant: "destructive",
+          });
+        });
     } catch (e) {
       console.error("Failed to start APK download:", e);
       toast({
         title: "Download failed",
         description: "Could not start APK download. Please try again.",
+        variant: "destructive",
       });
     }
   };
