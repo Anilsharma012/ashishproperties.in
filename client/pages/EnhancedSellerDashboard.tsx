@@ -1283,17 +1283,20 @@ export default function EnhancedSellerDashboard() {
                               </div>
                             </TableCell>
                             <TableCell>
-                              <div className="flex items-center gap-1">
+                              <div className="flex items-center gap-1 flex-wrap">
                                 <Link to={`/property/${id}`} target="_blank">
                                   <Button size="sm" variant="outline">
                                     <Eye className="h-3 w-3" />
                                   </Button>
                                 </Link>
-                                <Link to={`/post-property?edit=${id}`}>
-                                  <Button size="sm" variant="outline">
-                                    <Edit className="h-3 w-3" />
-                                  </Button>
-                                </Link>
+                                {(property.approvalStatus === "pending" ||
+                                  property.approvalStatus === "rejected") && (
+                                  <Link to={`/post-property?edit=${id}`}>
+                                    <Button size="sm" variant="outline" className="bg-blue-50 hover:bg-blue-100 border-blue-200">
+                                      <Edit className="h-3 w-3" />
+                                    </Button>
+                                  </Link>
+                                )}
                                 <Button
                                   size="sm"
                                   variant="outline"
