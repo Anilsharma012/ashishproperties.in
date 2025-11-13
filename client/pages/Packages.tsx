@@ -108,10 +108,13 @@ export default function PackagesPage() {
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="flex items-center gap-4 mb-4">
             <PackageIcon className="h-10 w-10 text-[#C70000]" />
-            <h1 className="text-4xl font-bold text-gray-900">Advertisement Packages</h1>
+            <h1 className="text-4xl font-bold text-gray-900">
+              Advertisement Packages
+            </h1>
           </div>
           <p className="text-lg text-gray-600">
-            Choose the right package to boost your property visibility and get more inquiries
+            Choose the right package to boost your property visibility and get
+            more inquiries
           </p>
         </div>
       </div>
@@ -143,10 +146,14 @@ export default function PackagesPage() {
               )}
 
               {/* Card Content */}
-              <div className={`p-6 ${pkg.type === "premium" ? "bg-gradient-to-br from-yellow-50 to-white" : "bg-white"}`}>
+              <div
+                className={`p-6 ${pkg.type === "premium" ? "bg-gradient-to-br from-yellow-50 to-white" : "bg-white"}`}
+              >
                 {/* Package Name and Price */}
                 <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{pkg.name}</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    {pkg.name}
+                  </h3>
                   <div className="flex items-baseline gap-2">
                     <span className="text-3xl font-bold text-[#C70000]">
                       {pkg.price === 0 ? "Free" : `₹${pkg.price}`}
@@ -156,7 +163,9 @@ export default function PackagesPage() {
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-700 text-sm mb-6 leading-relaxed">{pkg.description}</p>
+                <p className="text-gray-700 text-sm mb-6 leading-relaxed">
+                  {pkg.description}
+                </p>
 
                 {/* Features Count Badge */}
                 <div className="mb-6 inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
@@ -183,7 +192,9 @@ export default function PackagesPage() {
                       : "bg-[#C70000] hover:bg-red-700 text-white"
                   }`}
                 >
-                  {pkg.price === 0 ? "Choose (Free)" : `Choose for ₹${pkg.price}`}{" "}
+                  {pkg.price === 0
+                    ? "Choose (Free)"
+                    : `Choose for ₹${pkg.price}`}{" "}
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               </div>
@@ -194,16 +205,23 @@ export default function PackagesPage() {
         {/* Features Comparison Section */}
         {packages.length > 0 && (
           <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">Feature Comparison</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">
+              Feature Comparison
+            </h2>
 
             {/* Mobile: Feature List */}
             <div className="md:hidden space-y-8">
               {packages.map((pkg) => (
                 <div key={pkg._id} className="border-t pt-6">
-                  <h3 className="font-bold text-lg text-gray-900 mb-4">{pkg.name}</h3>
+                  <h3 className="font-bold text-lg text-gray-900 mb-4">
+                    {pkg.name}
+                  </h3>
                   <ul className="space-y-2">
                     {pkg.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center gap-2 text-sm text-gray-700">
+                      <li
+                        key={idx}
+                        className="flex items-center gap-2 text-sm text-gray-700"
+                      >
                         <Check className="h-4 w-4 text-green-500" />
                         {feature}
                       </li>
@@ -218,33 +236,45 @@ export default function PackagesPage() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b-2 border-gray-200">
-                    <th className="text-left py-4 px-4 font-bold text-gray-900 w-1/3">Features</th>
+                    <th className="text-left py-4 px-4 font-bold text-gray-900 w-1/3">
+                      Features
+                    </th>
                     {packages.map((pkg) => (
-                      <th key={pkg._id} className="text-center py-4 px-4 font-bold text-gray-900">
+                      <th
+                        key={pkg._id}
+                        className="text-center py-4 px-4 font-bold text-gray-900"
+                      >
                         <div className="text-sm">{pkg.name}</div>
-                        <div className="text-xs text-gray-600 font-normal">₹{pkg.price === 0 ? "Free" : pkg.price}</div>
+                        <div className="text-xs text-gray-600 font-normal">
+                          ₹{pkg.price === 0 ? "Free" : pkg.price}
+                        </div>
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {/* Collect all unique features */}
-                  {Array.from(
-                    new Set(packages.flatMap((p) => p.features))
-                  ).map((feature) => (
-                    <tr key={feature} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-4 px-4 text-sm text-gray-700 font-medium">{feature}</td>
-                      {packages.map((pkg) => (
-                        <td key={pkg._id} className="text-center py-4 px-4">
-                          {pkg.features.includes(feature) ? (
-                            <Check className="h-5 w-5 text-green-500 mx-auto" />
-                          ) : (
-                            <div className="h-5 w-5 border-2 border-gray-300 rounded mx-auto" />
-                          )}
+                  {Array.from(new Set(packages.flatMap((p) => p.features))).map(
+                    (feature) => (
+                      <tr
+                        key={feature}
+                        className="border-b border-gray-100 hover:bg-gray-50"
+                      >
+                        <td className="py-4 px-4 text-sm text-gray-700 font-medium">
+                          {feature}
                         </td>
-                      ))}
-                    </tr>
-                  ))}
+                        {packages.map((pkg) => (
+                          <td key={pkg._id} className="text-center py-4 px-4">
+                            {pkg.features.includes(feature) ? (
+                              <Check className="h-5 w-5 text-green-500 mx-auto" />
+                            ) : (
+                              <div className="h-5 w-5 border-2 border-gray-300 rounded mx-auto" />
+                            )}
+                          </td>
+                        ))}
+                      </tr>
+                    ),
+                  )}
                 </tbody>
               </table>
             </div>
@@ -259,19 +289,27 @@ export default function PackagesPage() {
           </h3>
           <ul className="space-y-3 text-blue-900">
             <li className="flex items-start gap-3">
-              <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">1</div>
+              <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                1
+              </div>
               <span>Choose the package that best fits your needs</span>
             </li>
             <li className="flex items-start gap-3">
-              <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">2</div>
+              <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                2
+              </div>
               <span>Complete the payment securely</span>
             </li>
             <li className="flex items-start gap-3">
-              <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">3</div>
+              <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                3
+              </div>
               <span>Your property gets featured with enhanced visibility</span>
             </li>
             <li className="flex items-start gap-3">
-              <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">4</div>
+              <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                4
+              </div>
               <span>Start receiving more inquiries and views instantly</span>
             </li>
           </ul>
