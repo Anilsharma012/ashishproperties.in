@@ -1184,6 +1184,8 @@ export default function Admin() {
           return <NotificationManagement />;
         case "customers":
           return <AllUsersManagement />;
+        case "advertisement-submissions":
+          return <AdvertisementSubmissionsManagement token={token} />;
         case "role":
           return <StaffManagement />;
         case "staff-management":
