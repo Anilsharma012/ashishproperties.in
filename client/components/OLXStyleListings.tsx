@@ -472,9 +472,9 @@ export default function OLXStyleListings() {
                     {property.title}
                   </h3>
 
-                  <div className="flex items-center text-[11px] md:text-xs text-gray-500 mb-1">
+                  <div className="flex items-center text-[11px] md:text-xs text-gray-700 mb-2">
                     <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
-                    <span className="truncate">
+                    <span className="truncate font-medium">
                       {property.location.city}, {property.location.state}
                     </span>
                   </div>
