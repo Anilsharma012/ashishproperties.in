@@ -6,6 +6,7 @@ import { ObjectId } from "mongodb";
 import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import fs from "fs";
+import { sendPropertyConfirmationEmail, sendPropertyApprovalEmail } from "../utils/mailer";
 
 /* ========================= Multer (image uploads) ========================= */
 const storage = multer.diskStorage({
