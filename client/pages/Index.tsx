@@ -69,6 +69,13 @@ export default function Index() {
       <PWAInstallPrompt />
       <PWAInstallButton />
       <StaticFooter />
+
+      {/* Advertisement Form Modal */}
+      <AdvertisementForm
+        isOpen={showAdForm}
+        onClose={() => setShowAdForm(false)}
+        bannerType={selectedBannerType}
+      />
     </div>
   );
 }
