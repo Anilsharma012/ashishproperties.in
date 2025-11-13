@@ -112,8 +112,7 @@ export async function sendWelcomeEmail(
   name: string,
   userType: string,
 ) {
-  const userTypeDisplay =
-    userType.charAt(0).toUpperCase() + userType.slice(1);
+  const userTypeDisplay = userType.charAt(0).toUpperCase() + userType.slice(1);
 
   const html = `
     <!DOCTYPE html>
@@ -158,7 +157,7 @@ export async function sendWelcomeEmail(
               </ul>
               `
                 : userType === "agent"
-                ? `
+                  ? `
               <p><strong>As an Agent:</strong></p>
               <ul>
                 <li>🏢 List multiple properties and manage your portfolio</li>
@@ -168,7 +167,7 @@ export async function sendWelcomeEmail(
                 <li>🌟 Stand out with premium listings</li>
               </ul>
               `
-                : `
+                  : `
               <p><strong>As a Buyer:</strong></p>
               <ul>
                 <li>🔍 Search and filter properties by your preferences</li>

@@ -80,7 +80,10 @@ export const getAllTestimonials: RequestHandler = async (req, res) => {
 export const getPublicTestimonials: RequestHandler = async (req, res) => {
   try {
     const db = getDatabase();
-    const { featured, propertyId } = req.query as { featured?: string; propertyId?: string };
+    const { featured, propertyId } = req.query as {
+      featured?: string;
+      propertyId?: string;
+    };
 
     const filter: any = { status: "approved" };
     if (featured === "true") {
@@ -301,6 +304,8 @@ export const initializeTestimonials: RequestHandler = async (req, res) => {
     res.json({ success: true, data: { inserted: samples.length } });
   } catch (error) {
     console.error("Error initializing testimonials:", error);
-    res.status(500).json({ success: false, error: "Failed to initialize testimonials" });
+    res
+      .status(500)
+      .json({ success: false, error: "Failed to initialize testimonials" });
   }
 };

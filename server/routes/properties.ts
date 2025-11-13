@@ -6,7 +6,10 @@ import { ObjectId } from "mongodb";
 import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import fs from "fs";
-import { sendPropertyConfirmationEmail, sendPropertyApprovalEmail } from "../utils/mailer";
+import {
+  sendPropertyConfirmationEmail,
+  sendPropertyApprovalEmail,
+} from "../utils/mailer";
 
 /* ========================= Multer (image uploads) ========================= */
 const storage = multer.diskStorage({
@@ -380,7 +383,9 @@ export const createProperty: RequestHandler = async (req, res) => {
 
     // Send property confirmation email
     try {
-      const user = await db.collection("users").findOne({ _id: new ObjectId(String(userId)) });
+      const user = await db
+        .collection("users")
+        .findOne({ _id: new ObjectId(String(userId)) });
       if (user?.email) {
         await sendPropertyConfirmationEmail(
           user.email,
@@ -390,7 +395,10 @@ export const createProperty: RequestHandler = async (req, res) => {
         );
       }
     } catch (e) {
-      console.warn("Property confirmation email failed:", (e as any)?.message || e);
+      console.warn(
+        "Property confirmation email failed:",
+        (e as any)?.message || e,
+      );
     }
 
     const response: ApiResponse<{ _id: string }> = {
