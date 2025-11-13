@@ -118,13 +118,58 @@ export const createTestimonial: RequestHandler = async (req, res) => {
     const db = getDatabase();
     const { name, email, rating, comment, propertyId, sellerId } = req.body;
 
+    // Validation
+    if (!name || typeof name !== "string" || name.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: "Name is required and must be a non-empty string",
+      });
+    }
+
+    if (!email || typeof email !== "string" || email.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: "Email is required and must be a non-empty string",
+      });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      return res.status(400).json({
+        success: false,
+        error: "Please provide a valid email address",
+      });
+    }
+
+    const ratingNum = Number(rating);
+    if (!Number.isInteger(ratingNum) || ratingNum < 1 || ratingNum > 5) {
+      return res.status(400).json({
+        success: false,
+        error: "Rating must be an integer between 1 and 5",
+      });
+    }
+
+    if (!comment || typeof comment !== "string" || comment.trim().length < 5) {
+      return res.status(400).json({
+        success: false,
+        error: "Comment is required and must be at least 5 characters",
+      });
+    }
+
+    if (!propertyId && !sellerId) {
+      return res.status(400).json({
+        success: false,
+        error: "Either propertyId or sellerId must be provided",
+      });
+    }
+
     const testimonial: Omit<Testimonial, "_id"> = {
-      name,
-      email,
-      rating,
-      comment,
-      propertyId,
-      sellerId,
+      name: name.trim(),
+      email: email.trim(),
+      rating: ratingNum,
+      comment: comment.trim(),
+      propertyId: propertyId || undefined,
+      sellerId: sellerId || undefined,
       status: "pending",
       featured: false,
       createdAt: new Date(),
