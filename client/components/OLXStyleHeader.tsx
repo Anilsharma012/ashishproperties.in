@@ -323,6 +323,13 @@ export default function OLXStyleHeader() {
                     Categories
                   </a>
                   <a
+                    href="/packages"
+                    className="block px-4 py-3 hover:bg-red-50 rounded-lg text-[#C70000] font-semibold flex items-center gap-2"
+                  >
+                    <PackageIcon className="h-4 w-4" />
+                    Buy Packages
+                  </a>
+                  <a
                     href="/post-property"
                     className="block px-4 py-3 hover:bg-gray-100 rounded-lg text-gray-700"
                   >
