@@ -134,6 +134,7 @@ export default function OLXStyleHeader() {
               alt="Ashish Properties"
               className="h-10 w-auto"
             />
+            <span className="text-xl font-bold text-white hidden md:inline">AshishProperties</span>
           </div>
 
           {/* Actions: Heart (wishlist) to the LEFT of Bell (notifications) */}
