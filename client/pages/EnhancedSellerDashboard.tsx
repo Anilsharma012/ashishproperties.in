@@ -1250,18 +1250,28 @@ export default function EnhancedSellerDashboard() {
                               <div>
                                 {getStatusBadge(property.approvalStatus)}
                                 {property.approvalStatus === "rejected" && (
-                                  <div className="bg-red-50 border border-red-200 rounded p-2 mt-2">
+                                  <div className="bg-red-50 border border-red-200 rounded p-3 mt-2 space-y-2">
                                     {property.rejectionReason && (
                                       <div>
                                         <p className="text-xs font-semibold text-red-800 mb-1">
-                                          Rejection Reason:
+                                          ❌ Issues Found:
                                         </p>
                                         <p className="text-xs text-red-700">
                                           {property.rejectionReason}
                                         </p>
                                       </div>
                                     )}
-                                    {!property.rejectionReason && (
+                                    {property.adminComments && (
+                                      <div>
+                                        <p className="text-xs font-semibold text-red-800 mb-1">
+                                          💬 Admin Feedback:
+                                        </p>
+                                        <p className="text-xs text-red-700 bg-white bg-opacity-50 rounded p-2">
+                                          {property.adminComments}
+                                        </p>
+                                      </div>
+                                    )}
+                                    {!property.rejectionReason && !property.adminComments && (
                                       <p className="text-xs text-red-700">
                                         Property rejected by admin
                                       </p>
