@@ -409,16 +409,24 @@ const PendingPropertiesApproval = () => {
                     </div>
                   )}
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Admin Comments (Optional)
+                <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
+                  <label className="block text-sm font-semibold text-blue-900 mb-2 flex items-center gap-2">
+                    <MessageSquare className="h-4 w-4" />
+                    💬 Comments for Seller (Optional)
                   </label>
+                  <p className="text-xs text-blue-700 mb-3">
+                    These comments will be visible to the seller in their dashboard. Use this to provide helpful feedback or guidance for fixing issues.
+                  </p>
                   <Textarea
                     value={adminComments}
                     onChange={(e) => setAdminComments(e.target.value)}
-                    placeholder="Add any comments about this property..."
+                    placeholder="E.g., 'Please improve image quality. Add clearer photos of the main hall.' or 'Contact information appears incomplete. Please add WhatsApp number.'"
                     rows={3}
+                    className="bg-white border-blue-200 text-sm"
                   />
+                  <p className="text-xs text-blue-600 mt-2">
+                    Characters: {adminComments.length}/500
+                  </p>
                 </div>
 
                 <div className="space-y-3">
