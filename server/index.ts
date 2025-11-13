@@ -266,6 +266,16 @@ import {
   initializeBanners,
 } from "./routes/banners";
 
+// Advertisement routes
+import {
+  createAdvertisementSubmission,
+  getAdvertisementSubmissions,
+  getAdvertisementSubmission,
+  updateAdvertisementSubmissionStatus,
+  deleteAdvertisementSubmission,
+  getAdvertisementStatistics,
+} from "./routes/advertisement";
+
 // New Projects routes
 import {
   getNewProjects,
