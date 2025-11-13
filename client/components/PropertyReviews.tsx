@@ -17,18 +17,22 @@ export default function PropertyReviews({ propertyId }: { propertyId: string }) 
     const fetchReviews = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/testimonials?propertyId=${encodeURIComponent(propertyId)}`);
+        const url = `/api/testimonials?propertyId=${encodeURIComponent(propertyId)}&featured=false`;
+        const res = await fetch(url);
         if (res.ok) {
           const data = await res.json();
           if (data.success && Array.isArray(data.data)) {
             setReviews(data.data);
           } else {
+            console.error("Invalid testimonials response:", data);
             setReviews([]);
           }
         } else {
+          console.error("Failed to fetch testimonials:", res.status);
           setReviews([]);
         }
       } catch (e) {
+        console.error("Error fetching testimonials:", e);
         setReviews([]);
       } finally {
         setLoading(false);
