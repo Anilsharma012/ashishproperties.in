@@ -237,6 +237,13 @@ export const registerUser: RequestHandler = async (req, res) => {
       console.warn("Welcome notification failed:", (e as any)?.message || e);
     }
 
+    // Send welcome email
+    try {
+      await sendWelcomeEmail(email, name, userType);
+    } catch (e) {
+      console.warn("Welcome email failed:", (e as any)?.message || e);
+    }
+
     const token = signAppJwt({
       userId: result.insertedId.toString(),
       userType,
