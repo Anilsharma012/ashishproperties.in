@@ -129,9 +129,11 @@ export default function OLXStyleHeader() {
 
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-white">
-              Ashish Properties
-            </div>
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets%2F6f3c7108bc7548aba25ee643ded03b4f%2Ff62a9c1217dd43bdaaaf498f94dae337?format=webp&width=200"
+              alt="Ashish Properties"
+              className="h-10 w-auto"
+            />
           </div>
 
           {/* Actions: Heart (wishlist) to the LEFT of Bell (notifications) */}
