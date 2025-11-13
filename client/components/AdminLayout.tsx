@@ -223,6 +223,7 @@ const menuItems: MenuItem[] = [
     children: [
       { id: "send-notification", label: "Send Notification", icon: Send },
       { id: "customers", label: "Customers", icon: Users },
+      { id: "advertisement-submissions", label: "Advertisement Submissions", icon: Megaphone },
     ],
   },
   {
