@@ -82,6 +82,20 @@ async function initializePropertyCategories() {
         { name: "Co-living", slug: "co-living" },
       ],
     },
+    {
+      name: "Co-living",
+      slug: "co-living-main",
+      description: "Modern shared living spaces for different groups",
+      propertyTypes: ["pg"],
+      sortOrder: 6,
+      isActive: true,
+      subcategories: [
+        { name: "Boys", slug: "boys" },
+        { name: "Girls", slug: "girls" },
+        { name: "Working Men", slug: "working-men" },
+        { name: "Working Woman", slug: "working-woman" },
+      ],
+    },
   ];
 
   try {

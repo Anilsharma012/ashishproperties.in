@@ -429,15 +429,15 @@ export default function OLXStyleListings() {
                   />
 
                   {/* ✅ Badge logic */}
-                  {isAdminPosted(property) ? (
-                    <div className="absolute top-2 left-2 bg-black/80 text-white px-2 py-1 rounded-md text-[10px] md:text-xs font-bold shadow">
-                      AP
-                    </div>
-                  ) : isPremium(property) ? (
+                  {isPremium(property) ? (
                     <div className="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-600 text-white px-2 py-1 rounded-md text-[10px] md:text-xs font-bold shadow">
                       [premium]
                     </div>
-                  ) : null}
+                  ) : (
+                    <div className="absolute top-2 left-2 bg-black/80 text-white px-2 py-1 rounded-md text-[10px] md:text-xs font-bold shadow">
+                      AP
+                    </div>
+                  )}
 
                   {/* watermark should not steal clicks */}
                   <Watermark
@@ -472,10 +472,13 @@ export default function OLXStyleListings() {
                     {property.title}
                   </h3>
 
-                  <div className="flex items-center text-[11px] md:text-xs text-gray-500 mb-1">
+                  <div className="flex items-center text-[11px] md:text-xs text-gray-700 mb-2">
                     <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
-                    <span className="truncate">
-                      {property.location.city}, {property.location.state}
+                    <span className="truncate font-medium">
+                      {property.location?.city ||
+                        property.location?.address ||
+                        "Rohtak"}
+                      , {property.location?.state || "HR"}
                     </span>
                   </div>
 

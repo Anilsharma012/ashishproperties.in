@@ -16,6 +16,7 @@ import {
   Briefcase,
   ArrowRight,
   Edit,
+  Package as PackageIcon,
 } from "lucide-react";
 
 interface MenuDashboardProps {
@@ -503,6 +504,16 @@ export default function MenuDashboard({ onClose }: MenuDashboardProps) {
             className="w-full bg-[#C70000] hover:bg-[#A60000] text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors"
           >
             View Full Dashboard
+          </button>
+        </div>
+
+        <div className="mb-4">
+          <button
+            onClick={() => go("/packages")}
+            className="w-full flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors"
+          >
+            <PackageIcon className="h-4 w-4" />
+            Buy Packages
           </button>
         </div>
 

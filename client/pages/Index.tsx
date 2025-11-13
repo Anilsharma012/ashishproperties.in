@@ -6,6 +6,7 @@ import OLXStyleListings from "../components/OLXStyleListings";
 import PackagesShowcase from "../components/PackagesShowcase";
 import PWAInstallPrompt from "../components/PWAInstallPrompt";
 import PWAInstallButton from "../components/PWAInstallButton";
+import MobileInstallationReminder from "../components/MobileInstallationReminder";
 import BottomNavigation from "../components/BottomNavigation";
 import HomepageBanner from "../components/HomepageBanner";
 import StaticFooter from "../components/StaticFooter";
@@ -56,12 +57,13 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-white">
       <OLXStyleHeader />
+      <MobileInstallationReminder />
       <main className="pb-16 bg-gradient-to-b from-red-50 to-white">
         {/* Big banner above hero */}
         {/* <TopBanner /> */}
 
         {/* Hero Image Slider */}
-        <HeroImageSlider />
+        {/*<HeroImageSlider /> */}
 
         {/* Advertisement Banner Carousel */}
         <AdvertisementBannerCarousel onBannerClick={handleBannerClick} />
